@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "1.1"
+    VERSION = "1.2"
 
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
@@ -54,12 +54,16 @@ class Player:
                                     and high_card_rank == max([card["rank"] for card in community_cards])
                 flop_card_ranks = sorted(
                     [card_dict[card["rank"]] for card in community_cards] + [high_card_rank, low_card_rank])
+                flop_card_suits = [card["suit"] for card in community_cards] + [first_card["suit"], second_card["suit"]]
+                flush = len(set(flop_card_suits)) == 1
                 for i in range(len(straights) - 5):
                     if flop_card_ranks == straights[i: i + 5]:
                         straight = True
                         break
                     else:
                         straight = False
+                if flush:
+                    return stack
                 if straight:
                     return stack
                 if possible_call_for_two_pairs or possible_call_for_drill or highest_flop_pair:

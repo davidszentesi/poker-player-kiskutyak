@@ -37,7 +37,7 @@ class Player:
         middle_call_hand = figure_and_high or (same_color and possible_straight) or pair_in_hand_low
 
         if call_hand:
-            return call
+            return call + minimum_raise * 4
 
         elif middle_call_hand:
             high_card_rank = max(card_dict[first_card["rank"]], card_dict[second_card["rank"]])

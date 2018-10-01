@@ -66,7 +66,9 @@ class Player:
                     return stack
                 if straight:
                     return stack
-                if possible_call_for_two_pairs or possible_call_for_drill or highest_flop_pair:
+                if possible_call_for_two_pairs or possible_call_for_drill:
+                    return call + minimum_raise * 2
+                elif highest_flop_pair:
                     return call + minimum_raise
                 elif possible_call_for_high_pair:
                     return call

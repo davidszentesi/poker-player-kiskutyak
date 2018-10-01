@@ -4,10 +4,11 @@ import sys
 
 
 class Player:
-    VERSION = "0.4.2"
+    VERSION = "0.4.3a"
 
     def betRequest(self, game_state):
-        our_player = game_state["players"]["in_action"]
+        in_action = game_state["in_action"]
+        our_player = game_state["players"][in_action]
         our_cards = our_player["hole_cards"]
         first_card = our_cards[0]
         second_card = our_cards[1]

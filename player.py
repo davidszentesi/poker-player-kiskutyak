@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "0.7"
+    VERSION = "0.8"
 
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
@@ -35,22 +35,27 @@ class Player:
             return call
 
         elif middle_call_hand:
+            high_card_rank = max(first_card["rank"], second_card["rank"])
+            low_card_rank = min(first_card["rank"], second_card["rank"])
+            possible_call_for_high_pair = [True for card in community_cards if card["rank"] == high_card_rank]
+            possible_call_for_two_pairs = possible_call_for_high_pair \
+                                          or [True for card in community_cards if card["rank"] == low_card_rank]
+            possible_call_for_drill = [card["rank"] for card in community_cards].count(first_card["rank"]) >= 2 \
+                                      or [card["rank"] for card in community_cards].count(second_card["rank"]) >= 2
             if len(community_cards) == 0:
                 return call
+
+            # flop
             elif len(community_cards) == 3:
-                high_card_rank = max(first_card["rank"], second_card["rank"])
-                low_card_rank = min(first_card["rank"], second_card["rank"])
-                possible_call_for_high_pair = [True for card in community_cards if card["rank"] == high_card_rank]
-                possible_call_for_two_pairs = possible_call_for_high_pair \
-                                              or [True for card in community_cards if card["rank"] == low_card_rank]
-                possible_call_for_drill = [card["rank"] for card in community_cards].count(first_card["rank"]) >= 2 \
-                                          or [card["rank"] for card in community_cards].count(second_card["rank"]) >= 2
-                if possible_call_for_two_pairs or possible_call_for_drill:
+                highest_flop_pair = possible_call_for_high_pair \
+                                    and high_card_rank == max([card["rank"] for card in community_cards])
+                if possible_call_for_two_pairs or possible_call_for_drill or highest_flop_pair:
                     return call + minimum_raise
                 elif possible_call_for_high_pair:
                     return call
                 else:
                     return 0
+
             else:
                 return call
 

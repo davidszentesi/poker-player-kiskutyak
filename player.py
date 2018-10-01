@@ -9,11 +9,13 @@ class Player:
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
         our_player = game_state["players"][in_action]
+        stack = our_player["stack"]
         our_cards = our_player["hole_cards"]
         community_cards = game_state["community_cards"]
         minimum_raise = game_state["minimum_raise"]
         first_card = our_cards[0]
         second_card = our_cards[1]
+        straights = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
         figures = ["J", "Q", "K", "A"]
         high_cards = ["10", "J", "Q", "K", "A"]
         card_dict = {"2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "J": 11, "Q": 12,
@@ -28,8 +30,8 @@ class Player:
                                  and same_color
         both_high_cards = first_card["rank"] in high_cards and second_card["rank"] in high_cards
         call_hand = pair_in_hand or same_color_with_figure or both_high_cards
-        ace_or_king = first_card["rank"] in high_cards[-2:] or second_card["rank"] in high_cards[-2:]
-        middle_call_hand = ace_or_king or (same_color and possible_straight)
+        figure = first_card["rank"] in high_cards[-4:] or second_card["rank"] in high_cards[-4:]
+        middle_call_hand = figure or (same_color and possible_straight)
 
         if call_hand:
             return call
@@ -49,9 +51,15 @@ class Player:
             elif len(community_cards) == 3:
                 highest_flop_pair = possible_call_for_high_pair \
                                     and high_card_rank == max([card["rank"] for card in community_cards])
-                # flop_card_ranks = [card["rank"] for card in community_cards]
-                # for card in f
-                # straight = [True for card in  if ]
+                flop_card_ranks = sorted(
+                    [card_dict[card["rank"]] for card in community_cards] + [high_card_rank, low_card_rank])
+                for i in range(len(straights) - 5):
+                    if flop_card_ranks == straights[i: i + 5]:
+                        straight = True
+                    else:
+                        straight = False
+                if straight:
+                    return stack
                 if possible_call_for_two_pairs or possible_call_for_drill or highest_flop_pair:
                     return call + minimum_raise
                 elif possible_call_for_high_pair:

@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "1.2"
+    VERSION = "1.3"
 
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
@@ -75,7 +75,14 @@ class Player:
                 else:
                     return 0
 
-            # turn & river
+            # turn
+            elif len(community_cards) == 4:
+                if possible_call_for_drill:
+                    return stack
+                else:
+                    return call
+
+            # river
             else:
                 return call
 

@@ -44,14 +44,14 @@ class Player:
                                           or [True for card in community_cards if card["rank"] == low_card_rank]
             possible_call_for_drill = [card["rank"] for card in community_cards].count(first_card["rank"]) >= 2 \
                                       or [card["rank"] for card in community_cards].count(second_card["rank"]) >= 2
+            highest_pair = possible_call_for_high_pair \
+                                and high_card_rank == max([card["rank"] for card in community_cards])
             if len(community_cards) == 0:
                 return call
 
             # flop
             elif len(community_cards) == 3:
                 straight = None
-                highest_flop_pair = possible_call_for_high_pair \
-                                    and high_card_rank == max([card["rank"] for card in community_cards])
                 flop_card_ranks = sorted(
                     [card_dict[card["rank"]] for card in community_cards] + [high_card_rank, low_card_rank])
                 flop_card_suits = [card["suit"] for card in community_cards] + [first_card["suit"], second_card["suit"]]
@@ -68,7 +68,7 @@ class Player:
                     return stack
                 if possible_call_for_two_pairs or possible_call_for_drill:
                     return call + minimum_raise * 2
-                elif highest_flop_pair:
+                elif highest_pair:
                     return call + minimum_raise
                 elif possible_call_for_high_pair:
                     return call
@@ -79,6 +79,8 @@ class Player:
             elif len(community_cards) == 4:
                 if possible_call_for_drill:
                     return stack
+                elif highest_pair:
+                    return call + minimum_raise * 2
                 else:
                     return call
 
@@ -86,6 +88,8 @@ class Player:
             else:
                 if possible_call_for_drill:
                     return stack
+                elif highest_pair:
+                    return call + minimum_raise * 2
                 else:
                     return call
 

@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "0.4"
+    VERSION = "0.4.1"
 
     def betRequest(self, game_state):
         our_player = game_state["players"]["in_action"]
@@ -16,9 +16,9 @@ class Player:
 
         # hands in pair
         if first_card["rank"] == second_card["rank"] and (first_card["rank"] >= 7 or first_card["rank"] in figures):
-        if our_cards[0]["rank"] == our_cards[1]["rank"] and our_cards[0]["rank"] >= 7:
-            Player.log(self, "Pair in hand bet")
-            return game_state["current_buy_in"] - our_player["bet"] + game_state["minimum_raise"]
+            if our_cards[0]["rank"] == our_cards[1]["rank"] and our_cards[0]["rank"] >= 7:
+                Player.log(self, "Pair in hand bet")
+                return game_state["current_buy_in"] - our_player["bet"] + game_state["minimum_raise"]
 
         elif (first_card["rank"] >= 7 and second_card["rank"] in figures) or (second_card["rank"] >= 7 and first_card["rank"] in figures):
 
@@ -28,7 +28,7 @@ class Player:
                 return 0
 
         else:
-            return 200
+            return 20
 
     def showdown(self, game_state):
         pass

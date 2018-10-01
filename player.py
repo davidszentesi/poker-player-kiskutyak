@@ -12,7 +12,7 @@ class Player:
         first_card = our_cards[0]
         second_card = our_cards[1]
         figures = ["J", "Q", "K", "A"]
-        call = game_state["current_buy_in"] - our_player["in_action"]["bet"]
+        call = game_state["current_buy_in"] - our_player["bet"]
 
         # hands in pair
         if first_card["rank"] == second_card["rank"] and (first_card["rank"] >= 7 or first_card["rank"] in figures):

@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "0.8"
+    VERSION = "0.9"
 
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
@@ -29,7 +29,7 @@ class Player:
         both_high_cards = first_card["rank"] in high_cards and second_card["rank"] in high_cards
         call_hand = pair_in_hand or same_color_with_figure or both_high_cards
         ace_or_king = first_card["rank"] in high_cards[-2:] or second_card["rank"] in high_cards[-2:]
-        middle_call_hand = ace_or_king or same_color or possible_straight
+        middle_call_hand = ace_or_king or (same_color and possible_straight)
 
         if call_hand:
             return call

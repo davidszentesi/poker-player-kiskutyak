@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "1.0"
+    VERSION = "1.1"
 
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
@@ -24,7 +24,7 @@ class Player:
         possible_straight = abs(card_dict[first_card["rank"]] - card_dict[second_card["rank"]]) <= 4
         call = game_state["current_buy_in"] - our_player["bet"]
         pair_in_hand = first_card["rank"] == second_card["rank"] \
-                       and (first_card["rank"] >= 8 or first_card["rank"] in figures)
+                       and (card_dict[first_card["rank"]] >= 8 or first_card["rank"] in figures)
         same_color = first_card["suit"] == second_card["suit"]
         same_color_with_figure = (first_card["rank"] in figures or second_card["rank"] in figures) \
                                  and same_color
@@ -49,6 +49,7 @@ class Player:
 
             # flop
             elif len(community_cards) == 3:
+                straight = None
                 highest_flop_pair = possible_call_for_high_pair \
                                     and high_card_rank == max([card["rank"] for card in community_cards])
                 flop_card_ranks = sorted(

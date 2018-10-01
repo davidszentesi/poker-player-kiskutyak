@@ -15,7 +15,9 @@ class Player:
         second_card = our_cards[1]
         figures = ["J", "Q", "K", "A"]
         high_cards = ["10", "J", "Q", "K", "A"]
-        card_dict = {"2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "J": 11, "Q": 12, "K": 13, "A": 14}
+        card_dict = {"2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "J": 11, "Q": 12,
+                     "K": 13,
+                     "A": 14}
         possible_straight = abs(card_dict[first_card["rank"]] - card_dict[second_card["rank"]]) <= 4
         call = game_state["current_buy_in"] - our_player["bet"]
         pair_in_hand = first_card["rank"] == second_card["rank"] \
@@ -31,16 +33,16 @@ class Player:
         if call_hand:
             return call
 
-        elif middle_call_hand:
-            if len(community_cards) == 0:
-                return call
-            elif len(community_cards) == 3:
-                high_card_rank = max(first_card["rank"], second_card["rank"])
-                possible_call = [True for card in community_cards if card["rank"] == high_card_rank]
-                if possible_call:
-                    return call
-                else:
-                    return 0
+        # elif middle_call_hand:
+        #     if len(community_cards) == 0:
+        #         return call
+        #     elif len(community_cards) == 3:
+        #         high_card_rank = max(first_card["rank"], second_card["rank"])
+        #         possible_call_for_pair = [True for card in community_cards if card["rank"] == high_card_rank]
+        #         if possible_call_for_pair:
+        #             return call
+        #         else:
+        #             return 0
 
         else:
             return 0

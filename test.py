@@ -29,8 +29,8 @@ def betRequest(game_state):
             return call
         elif len(community_cards) == 3:
             high_card_rank = max(first_card["rank"], second_card["rank"])
-            possible_call = [True for card in community_cards if card["rank"] == high_card_rank]
-            if possible_call:
+            possible_call_for_pair = [True for card in community_cards if card["rank"] == high_card_rank]
+            if possible_call_for_pair:
                 return call
             else:
                 return 0

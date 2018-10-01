@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "0.9"
+    VERSION = "1.0"
 
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
@@ -56,6 +56,7 @@ class Player:
                 for i in range(len(straights) - 5):
                     if flop_card_ranks == straights[i: i + 5]:
                         straight = True
+                        break
                     else:
                         straight = False
                 if straight:

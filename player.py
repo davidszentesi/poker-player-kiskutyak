@@ -35,8 +35,8 @@ class Player:
             return call
 
         elif middle_call_hand:
-            high_card_rank = max(first_card["rank"], second_card["rank"])
-            low_card_rank = min(first_card["rank"], second_card["rank"])
+            high_card_rank = max(card_dict[first_card["rank"]], card_dict[second_card["rank"]])
+            low_card_rank = min(card_dict[first_card["rank"]], card_dict[second_card["rank"]])
             possible_call_for_high_pair = [True for card in community_cards if card["rank"] == high_card_rank]
             possible_call_for_two_pairs = possible_call_for_high_pair \
                                           or [True for card in community_cards if card["rank"] == low_card_rank]
@@ -49,6 +49,9 @@ class Player:
             elif len(community_cards) == 3:
                 highest_flop_pair = possible_call_for_high_pair \
                                     and high_card_rank == max([card["rank"] for card in community_cards])
+                # flop_card_ranks = [card["rank"] for card in community_cards]
+                # for card in f
+                # straight = [True for card in  if ]
                 if possible_call_for_two_pairs or possible_call_for_drill or highest_flop_pair:
                     return call + minimum_raise
                 elif possible_call_for_high_pair:
@@ -56,6 +59,7 @@ class Player:
                 else:
                     return 0
 
+            # turn & river
             else:
                 return call
 

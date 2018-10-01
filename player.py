@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "1.3"
+    VERSION = "1.4"
 
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
@@ -46,8 +46,12 @@ class Player:
                                       or [card["rank"] for card in community_cards].count(second_card["rank"]) >= 2
             highest_pair = possible_call_for_high_pair \
                                 and high_card_rank == max([card["rank"] for card in community_cards])
+            current_buy_in = game_state["current_buy_in"]
             if len(community_cards) == 0:
-                return call
+                if current_buy_in <= stack / 2:
+                    return call
+                else:
+                    return 0
 
             # flop
             elif len(community_cards) == 3:

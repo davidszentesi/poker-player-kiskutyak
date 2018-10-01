@@ -4,7 +4,7 @@ import sys
 
 
 class Player:
-    VERSION = "0.6"
+    VERSION = "0.7"
 
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
@@ -51,6 +51,8 @@ class Player:
                     return call
                 else:
                     return 0
+            else:
+                return call
 
         else:
             return 0

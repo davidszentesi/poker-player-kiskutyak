@@ -26,13 +26,14 @@ class Player:
         pair_in_hand = first_card["rank"] == second_card["rank"] \
                        and (card_dict[first_card["rank"]] >= 8 or first_card["rank"] in figures)
         pair_in_hand_low = first_card["rank"] == second_card["rank"] \
-                       and (card_dict[first_card["rank"]] <= 7 or first_card["rank"] in figures)
+                           and (card_dict[first_card["rank"]] <= 7 or first_card["rank"] in figures)
         same_color = first_card["suit"] == second_card["suit"]
         same_color_with_figure = (first_card["rank"] in figures or second_card["rank"] in figures) \
                                  and same_color
         both_high_cards = first_card["rank"] in high_cards and second_card["rank"] in high_cards
         call_hand = pair_in_hand or same_color_with_figure or both_high_cards
-        figure_and_high = (first_card["rank"] in high_cards[-4:] or second_card["rank"] in high_cards[-4:]) and (first_card["rank"] in ["8", "9"] or second_card["rank"] in ["8", "9"])
+        figure_and_high = (first_card["rank"] in high_cards[-4:] or second_card["rank"] in high_cards[-4:]) and (
+                    first_card["rank"] in ["8", "9"] or second_card["rank"] in ["8", "9"])
         middle_call_hand = figure_and_high or (same_color and possible_straight) or pair_in_hand_low
 
         if call_hand:
@@ -47,13 +48,9 @@ class Player:
             possible_call_for_drill = [card["rank"] for card in community_cards].count(first_card["rank"]) >= 2 \
                                       or [card["rank"] for card in community_cards].count(second_card["rank"]) >= 2
             highest_pair = possible_call_for_high_pair \
-                                and high_card_rank == max([card["rank"] for card in community_cards])
-            current_buy_in = game_state["current_buy_in"]
+                           and high_card_rank == max([card["rank"] for card in community_cards])
             if len(community_cards) == 0:
-                if current_buy_in <= stack / 2:
-                    return call
-                else:
-                    return 0
+                return call
 
             # flop
             elif len(community_cards) == 3:

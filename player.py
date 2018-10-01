@@ -84,7 +84,10 @@ class Player:
 
             # river
             else:
-                return call
+                if possible_call_for_drill:
+                    return stack
+                else:
+                    return call
 
         else:
             return 0

@@ -11,6 +11,7 @@ class Player:
         our_player = game_state["players"][in_action]
         our_cards = our_player["hole_cards"]
         community_cards = game_state["community_cards"]
+        minimum_raise = game_state["minimum_raise"]
         first_card = our_cards[0]
         second_card = our_cards[1]
         figures = ["J", "Q", "K", "A"]
@@ -33,16 +34,23 @@ class Player:
         if call_hand:
             return call
 
-        # elif middle_call_hand:
-        #     if len(community_cards) == 0:
-        #         return call
-        #     elif len(community_cards) == 3:
-        #         high_card_rank = max(first_card["rank"], second_card["rank"])
-        #         possible_call_for_pair = [True for card in community_cards if card["rank"] == high_card_rank]
-        #         if possible_call_for_pair:
-        #             return call
-        #         else:
-        #             return 0
+        elif middle_call_hand:
+            if len(community_cards) == 0:
+                return call
+            elif len(community_cards) == 3:
+                high_card_rank = max(first_card["rank"], second_card["rank"])
+                low_card_rank = min(first_card["rank"], second_card["rank"])
+                possible_call_for_high_pair = [True for card in community_cards if card["rank"] == high_card_rank]
+                possible_call_for_two_pairs = possible_call_for_high_pair \
+                                              or [True for card in community_cards if card["rank"] == low_card_rank]
+                possible_call_for_drill = [card["rank"] for card in community_cards].count(first_card["rank"]) >= 2 \
+                                          or [card["rank"] for card in community_cards].count(second_card["rank"]) >= 2
+                if possible_call_for_two_pairs or possible_call_for_drill:
+                    return call + minimum_raise
+                elif possible_call_for_high_pair:
+                    return call
+                else:
+                    return 0
 
         else:
             return 0
